@@ -1,3 +1,18 @@
-DROP SCHEMA IF EXISTS othello;
-CREATE SCHEMA othello;
-USE othello;
+SET CHARACTER_SET_CLIENT = utf8;
+
+CREATE TABLE user (
+    user_id INTEGER NOT NULL AUTO_INCREMENT,
+    user_name VARCHAR(100) NOT NULL,
+    password VARCHAR(100) NOT NULL,
+    PRIMARY KEY (user_id));
+
+CREATE TABLE game_match (
+    match_id INTEGER NOT NULL AUTO_INCREMENT,
+    match_user INTEGER NOT NULL,
+    board INTEGER NOT NULL,
+    created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    is_match_end BOOLEAN NOT NULL DEFAULT FALSE,
+    delete_flag BOOLEAN NOT NULL DEFAULT FALSE,
+    PRIMARY KEY (match_id),
+    FOREIGN KEY (match_user) REFERENCES user (user_id));
+
