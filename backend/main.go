@@ -1,21 +1,26 @@
 package main
 
 import (
-	"fmt"
+	"backend/controller"
+
 	"github.com/gin-gonic/gin"
-    "./controller"
 )
 
 func main() {
-    router := gin.Default()
+	router := gin.Default()
 
-    othelloRouter := router.Group("/othello")
-    {
-        v1 := othelloRouter.Group("/v1")
-        // v1.GET("/get-stone")
-        v1.POST("/make-board")
-        v1.PUT("/update-stone")
-    }
+	othelloRouter := router.Group("/othello")
+	{
+		v1 := othelloRouter.Group("/v1")
 
-    router.Run(":8080")
+		//v1.POST("/users",controller.CreateUser)
+		v1.GET("/gamematch", controller.GetGameMatch)
+		v1.POST("/gamematch", controller.CreateGameMatch)
+		v1.PUT("/gamematch")
+
+		// To test
+		// v1.GET("/test",controller.Test)
+	}
+
+	router.Run(":8080")
 }

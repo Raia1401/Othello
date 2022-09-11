@@ -1,16 +1,20 @@
 package model
 
+import (
+	"time"
+)
+
 type User struct {
-    UserId int64 `xorm:"pk autoincr int(64)" form:"user_id"`
-    UserName string `xorm:"varchar(40)" form:"user_name"`
-    Password string `xorm:"varchar(40)"`
+	UserId   int64  `xorm:"pk autoincr int(64)" form:"user_id"`
+	UserName string `xorm:"varchar(40)" form:"user_name"`
+	Password string `xorm:"varchar(40)"`
 }
 
 type GameMatch struct {
-    MatchId int64 `xorm:"pk autoincr" form:"match_id"` 
-    MatchUserId int64 `xorm:"match_user_id"`
-    Board int64 
-    CreatedAt time.Time `xorm:"created_at"`
-    IsMatchEnd bool `xorm:"is_match_end"`
-    DeleteFlag bool `xorm:"delete_flag"`
+	MatchId     int64 `xorm:"pk autoincr 'match_id'"`
+	MatchUserId int64 `xorm:"match_user_id"`
+	Board       string
+	CreatedAt   time.Time `xorm:"created 'created_at'"`
+	IsMatchEnd  bool      `xorm:"default false 'is_match_end'" `
+	DeleteFlag  bool      `xorm:"default false 'delete_flag'"`
 }
