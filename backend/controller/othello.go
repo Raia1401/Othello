@@ -4,22 +4,15 @@ import (
 	"backend/service"
 	"fmt"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 var userId = int64(1)
 
+//POST
 func CreateGameMatch(c *gin.Context) {
-	// board := service.NewBoard()
-	// stonesPlace := board.GetStonesPlace()
-	// gameMatch := model.GameMatch{MatchUserId: 1, Board: stonesPlace, IsMatchEnd: false, DeleteFlag: false}
-	// err := c.Bind(&gameMatch)
-	// if err != nil{
-	//     c.String(http.StatusBadRequest, "Bad request")
-	//     return
-	// }
-
 	gameMatchService := service.GameMatchService{}
 	err := gameMatchService.CreateGameMatch(userId)
 	if err != nil {
@@ -31,6 +24,7 @@ func CreateGameMatch(c *gin.Context) {
 	})
 }
 
+//GET
 func GetGameMatch(c *gin.Context) {
 	gameMatchService := service.GameMatchService{}
 	gameMatch := gameMatchService.GetGameMatch(userId)
@@ -40,6 +34,31 @@ func GetGameMatch(c *gin.Context) {
 	})
 }
 
+//PATCH
+func UpdateGameMatch(c *gin.Context) {
+	gameMatchService := service.GameMatchService{}
+	userId, err := strconv.Atoi(c.Param("userId"))
+	x, err := strconv.Atoi(c.Param("x"))
+	y, err := strconv.Atoi(c.Param("y"))
+	color, err := strconv.Atoi(c.Param("color"))
+
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{
+			"message": "Bad request",
+		})
+	}
+
+	_, err = gameMatchService.UpdateGameMatch(int64(userId), x, y, color)
+
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{
+			"message": "you cant put down the stone",
+		})
+	}
+	c.JSONP(http.StatusNoContent, gin.H{})
+}
+
+//to test
 func Test(c *gin.Context) {
 	testService := service.TestService{}
 	User := testService.GetUser()

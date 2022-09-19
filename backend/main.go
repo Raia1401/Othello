@@ -16,7 +16,7 @@ func main() {
 		//v1.POST("/users",controller.CreateUser)
 		v1.GET("/gamematch", controller.GetGameMatch)
 		v1.POST("/gamematch", controller.CreateGameMatch)
-		v1.PUT("/gamematch")
+		v1.PUT("/gamematch", controller.UpdateGameMatch)
 
 		// To test
 		// v1.GET("/test",controller.Test)
