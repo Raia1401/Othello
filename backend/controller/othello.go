@@ -2,7 +2,7 @@ package controller
 
 import (
 	"backend/service"
-	"fmt"
+	"errors"
 	"net/http"
 	"strconv"
 
@@ -11,7 +11,7 @@ import (
 
 var userId = int64(1)
 
-//POST
+//POST method
 func CreateGameMatch(c *gin.Context) {
 	gameMatchService := service.GameMatchService{}
 	err := gameMatchService.CreateGameMatch(userId)
@@ -24,61 +24,65 @@ func CreateGameMatch(c *gin.Context) {
 	})
 }
 
-//GET
+//GET method
 func GetGameMatch(c *gin.Context) {
 	gameMatchService := service.GameMatchService{}
-	gameMatch := gameMatchService.GetGameMatch(userId)
+	gameMatch, err := gameMatchService.GetGameMatch(userId)
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
 	c.JSONP(http.StatusOK, gin.H{
 		"message": "ok",
 		"data":    gameMatch,
 	})
 }
 
-//PATCH
+//PATCH method
 func UpdateGameMatch(c *gin.Context) {
-	gameMatchService := service.GameMatchService{}
-	userId, err := strconv.Atoi(c.Param("userId"))
-	x, err := strconv.Atoi(c.Param("x"))
-	y, err := strconv.Atoi(c.Param("y"))
-	color, err := strconv.Atoi(c.Param("color"))
 
+	params, err := queryCheck(c, "userId", "x", "y", "color")
+	// fmt.Println(params)
+	userId, x, y, color := params[0], params[1], params[2], params[3]
+	// userId_int64 := int64(userId)
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{
 			"message": "Bad request",
 		})
+		return
 	}
-
+	gameMatchService := service.GameMatchService{}
 	_, err = gameMatchService.UpdateGameMatch(int64(userId), x, y, color)
-
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{
 			"message": "you cant put down the stone",
 		})
+		return
 	}
+
 	c.JSONP(http.StatusNoContent, gin.H{})
 }
 
-//to test
-func Test(c *gin.Context) {
-	testService := service.TestService{}
-	User := testService.GetUser()
-	fmt.Println(User)
+//get query string in request data
+func queryCheck(c *gin.Context, paramList ...string) ([]int, error) {
+	var params []int
+	for _, paramName := range paramList {
+		param, err := strconv.Atoi(c.Query(paramName))
+		if err != nil {
+			err := errors.New("param is not correct")
+			return params, err
+		}
+		params = append(params, param)
+	}
+
+	return params, nil
 }
 
-// func CreateUser(c *gin.Context) {
-//     user := model.User{}
-//     err := c.Bind(&user)
-//     if err != nil{
-//         c.String(http.StatusBadRequest, "Bad request")
-//         return
-//     }
-//    bookService :=service.BookService{}
-//    err = bookService.SetBook(&book)
-//    if err != nil{
-//        c.String(http.StatusInternalServerError, "Server Error")
-//        return
-//    }
-//    c.JSON(http.StatusCreated, gin.H{
-//        "status": "ok",
-//    })
+//test fucntion
+// func Test(c *gin.Context) {
+// 	testService := service.TestService{}
+// 	User := testService.GetUser()
+// 	fmt.Println(User)
 // }

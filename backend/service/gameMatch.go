@@ -3,6 +3,7 @@ package service
 import (
 	"backend/model"
 	"backend/service/board"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -22,20 +23,22 @@ func (GameMatchService) CreateGameMatch(userId int64) error {
 	return nil
 }
 
-func (GameMatchService) GetGameMatch(userId int64) model.GameMatch {
+func (GameMatchService) GetGameMatch(userId int64) (model.GameMatch, error) {
 	gameMatch := model.GameMatch{}
 	_, err := engine.Where("match_user_id=?", userId).Get(&gameMatch)
 	if err != nil {
-		panic(err)
+		// panic(err)
+		return gameMatch, err
 	}
-	return gameMatch
+	return gameMatch, nil
 }
 
 func (GameMatchService) UpdateGameMatch(userId int64, putStoneX int, putStoneY int, color int) (model.GameMatch, error) {
 	gameMatch := model.GameMatch{}
 	_, err := engine.Where("match_user_id=?", userId).Get(&gameMatch)
 	if err != nil {
-		panic(err)
+		// panic(err)
+		return gameMatch, err
 	}
 	board := board.NewBoard()
 	board = board.SetStonesPos(gameMatch.Board)
@@ -43,6 +46,7 @@ func (GameMatchService) UpdateGameMatch(userId int64, putStoneX int, putStoneY i
 	if err != nil {
 		return gameMatch, err
 	}
+	fmt.Println(board.StonesPos)
 
 	return gameMatch, nil
 }

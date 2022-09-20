@@ -2,6 +2,7 @@ package service
 
 import (
 	"backend/model"
+	"backend/service/board"
 	"fmt"
 	"log"
 
@@ -10,7 +11,7 @@ import (
 
 type TestService struct{}
 
-func (TestService) GetUser() bool {
+func (TestService) GetUserTest() bool {
 	user := model.User{UserId: 1}
 	fmt.Println(engine)
 	// result, err := engine.Where("user_id = ?", 1).Get(&user)
@@ -24,4 +25,24 @@ func (TestService) GetUser() bool {
 	}
 	fmt.Println("user:", result)
 	return result
+}
+
+func (TestService) BoardTest() {
+	board := board.NewBoard()
+	fmt.Println(board.StonesPos)
+	//fmt.Println(board.PlaceabilityPos)
+	//fmt.Println(board.PlaceabilityDir)
+
+	//石を(3,4)に置く
+	ok, err := board.PutDownStone(3, 4, 1)
+	fmt.Println(ok)
+	fmt.Println(err)
+	fmt.Println(board.StonesPos)
+
+	//石を(3,5)に置く
+	ok, err = board.PutDownStone(3, 5, 1)
+	fmt.Println(ok)
+	fmt.Println(err)
+	fmt.Println(board.StonesPos)
+
 }

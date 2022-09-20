@@ -32,6 +32,7 @@ func NewBoard() *Board {
 			}
 		}
 	}
+
 	return board
 }
 
@@ -60,6 +61,8 @@ func (b *Board) SetStonesPos(StonesPos string) *Board {
 
 //石を置く処理
 func (b *Board) PutDownStone(x int, y int, color int) (bool, error) {
+
+	b.InitPlaceability(color)
 	err := errors.New("you can't put down the stone here")
 	if x < 1 || BOARD_SIZE < x {
 		return false, err
@@ -79,12 +82,26 @@ func (b *Board) PutDownStone(x int, y int, color int) (bool, error) {
 
 }
 
+//PlaceabilityPosとPlaceabilityDirを更新
+func (b *Board) InitPlaceability(color int) {
+	for i := 1; i < BOARD_SIZE+1; i++ {
+		for j := 1; j < BOARD_SIZE+1; j++ {
+			dir := b.checkPlaceability(i, j, color)
+			b.PlaceabilityDir[i][j] = dir
+			if dir != 0 {
+				b.PlaceabilityPos[i][j] = true
+			}
+		}
+	}
+
+}
+
 //石を置くとどの方向にひっくり返せるか確認
 func (b *Board) checkPlaceability(x int, y int, color int) int {
 	var sum = 0
-	if b.StonesPos[x][y] != 0 {
-		return sum
-	}
+	// if b.StonesPos[x][y] != 0 {
+	// 	return sum
+	// }
 	dirList := DirList()
 	for _, dir := range dirList {
 		if b.checkPlaceabilityVector(x, y, dir.DirectionVecX, dir.DirectionVecY, color) {
@@ -110,20 +127,6 @@ func (b *Board) checkPlaceabilityVector(x int, y int, xVec int, yVec int, color 
 		}
 	}
 	return false
-}
-
-//PlaceabilityPosとPlaceabilityDirを更新
-func (b *Board) InitPlaceability(color int) {
-	for i := 1; i < BOARD_SIZE+2; i++ {
-		for j := 1; j < BOARD_SIZE+2; j++ {
-			dir := b.checkPlaceability(i, j, color)
-			b.PlaceabilityDir[i][j] = dir
-			if dir != 0 {
-				b.PlaceabilityPos[i][j] = true
-			}
-		}
-	}
-
 }
 
 //石をひっくり返す処理
