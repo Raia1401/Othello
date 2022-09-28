@@ -40,8 +40,8 @@ func GetGameMatch(c *gin.Context) {
 	})
 }
 
-//PATCH method
-func UpdateGameMatch(c *gin.Context) {
+//PUT method
+func PutDownStone(c *gin.Context) {
 
 	params, err := queryCheck(c, "userId", "x", "y", "color")
 	// fmt.Println(params)
@@ -57,7 +57,7 @@ func UpdateGameMatch(c *gin.Context) {
 	_, err = gameMatchService.UpdateGameMatch(int64(userId), x, y, color)
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{
-			"message": "you cant put down the stone",
+			"message": "you can't put down the stone",
 		})
 		return
 	}
@@ -80,9 +80,7 @@ func queryCheck(c *gin.Context, paramList ...string) ([]int, error) {
 	return params, nil
 }
 
-//test fucntion
-// func Test(c *gin.Context) {
-// 	testService := service.TestService{}
-// 	User := testService.GetUser()
-// 	fmt.Println(User)
-// }
+//PUT method
+func OpponentPutDownStone(c *gin.Context) {
+
+}

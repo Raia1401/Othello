@@ -2,9 +2,9 @@ package board
 
 //盤の大きさや石の設定
 const BOARD_SIZE = 8
-const BLACK_STONE = 1
-const WHITE_STONE = -1
-const WALL = 2
+const BLACK_STONE = 1 //2 01
+const WHITE_STONE = 2 //4 10
+const WALL = 3
 
 //方向の設定
 func DirList() map[string]Direction {

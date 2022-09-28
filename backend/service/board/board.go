@@ -49,7 +49,7 @@ func (b *Board) GetStonesPos() string {
 func (b *Board) SetStonesPos(StonesPos string) *Board {
 	for i := 0; i < BOARD_SIZE+2; i += 1 {
 		for j := 0; j < BOARD_SIZE+2; j += 1 {
-			stone, err := strconv.Atoi(StonesPos[i*8+j : i*8+j+1])
+			stone, err := strconv.Atoi(StonesPos[i*(BOARD_SIZE+2)+j : i*(BOARD_SIZE+2)+j+1])
 			if err != nil {
 				log.Fatal(err)
 			}
@@ -113,10 +113,10 @@ func (b *Board) checkPlaceability(x int, y int, color int) int {
 
 //特定の方向(xVec,yVec)に対して石をひっくり返せるか確認
 func (b *Board) checkPlaceabilityVector(x int, y int, xVec int, yVec int, color int) bool {
-	if b.StonesPos[x+xVec][y+yVec] == -color {
+	if b.StonesPos[x+xVec][y+yVec] == (color ^ 3) {
 		x_tmp := x + xVec*2
 		y_tmp := y + yVec*2
-		for b.StonesPos[x_tmp][y_tmp] == -color {
+		for b.StonesPos[x_tmp][y_tmp] == (color ^ 3) {
 			x_tmp += xVec
 			y_tmp += yVec
 		}
@@ -142,7 +142,7 @@ func (b *Board) ReverseStones(x int, y int, color int) {
 			x_tmp := x + dir.DirectionVecX
 			y_tmp := y + dir.DirectionVecY
 
-			for b.StonesPos[x_tmp][y_tmp] == -color {
+			for b.StonesPos[x_tmp][y_tmp] == (color ^ 3) {
 				b.StonesPos[x_tmp][y_tmp] = color
 				x_tmp += dir.DirectionVecX
 				y_tmp += dir.DirectionVecY
