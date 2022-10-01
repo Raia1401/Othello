@@ -38,23 +38,26 @@ func GetGameMatch(c *gin.Context) {
 		"message": "ok",
 		"data":    gameMatch,
 	})
+
+	// for i := 0; i < 100; {
+	// 	fmt.Println(gameMatch.Board[i : i+10])
+	// 	i += 10
+	// }
 }
 
 //PUT method
 func PutDownStone(c *gin.Context) {
 
 	params, err := queryCheck(c, "userId", "x", "y", "color")
-	// fmt.Println(params)
-	userId, x, y, color := params[0], params[1], params[2], params[3]
-	// userId_int64 := int64(userId)
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{
 			"message": "Bad request",
 		})
 		return
 	}
+	userId, x, y, color := params[0], params[1], params[2], params[3]
 	gameMatchService := service.GameMatchService{}
-	_, err = gameMatchService.UpdateGameMatch(int64(userId), x, y, color)
+	err = gameMatchService.PutDownStone(int64(userId), x, y, color)
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{
 			"message": "you can't put down the stone",
@@ -63,6 +66,29 @@ func PutDownStone(c *gin.Context) {
 	}
 
 	c.JSONP(http.StatusNoContent, gin.H{})
+}
+
+//PUT method
+func PutDownStoneByOpponent(c *gin.Context) {
+	params, err := queryCheck(c, "userId", "color")
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{
+			"message": "Bad request",
+		})
+		return
+	}
+	userId, color := params[0], params[1]
+	gameMatchService := service.GameMatchService{}
+	err = gameMatchService.PutDownStoneByOpponent(int64(userId), color)
+
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{
+			"message": "opponent can't put down the stone",
+		})
+		return
+	}
+	c.JSONP(http.StatusNoContent, gin.H{})
+
 }
 
 //get query string in request data
@@ -78,9 +104,4 @@ func queryCheck(c *gin.Context, paramList ...string) ([]int, error) {
 	}
 
 	return params, nil
-}
-
-//PUT method
-func OpponentPutDownStone(c *gin.Context) {
-
 }

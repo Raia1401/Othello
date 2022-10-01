@@ -18,10 +18,8 @@ func main() {
 		v1.POST("/gamematch", controller.CreateGameMatch)
 
 		v1.PUT("/gamematch/myself", controller.PutDownStone)
-		v1.PUT("/gamematch/opponent", controller.OpponentPutDownStone)
+		v1.PUT("/gamematch/opponent", controller.PutDownStoneByOpponent)
 
-		// To test
-		// v1.GET("/test",controller.Test)
 	}
 
 	router.Run(":8080")

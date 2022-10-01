@@ -37,13 +37,13 @@ func NewBoard() *Board {
 }
 
 func (b *Board) GetStonesPos() string {
-	stonePlace := ""
+	stonesPos := ""
 	for i := 0; i < BOARD_SIZE+2; i += 1 {
 		for j := 0; j < BOARD_SIZE+2; j += 1 {
-			stonePlace += strconv.Itoa(b.StonesPos[i][j])
+			stonesPos += strconv.Itoa(b.StonesPos[i][j])
 		}
 	}
-	return stonePlace
+	return stonesPos
 }
 
 func (b *Board) SetStonesPos(StonesPos string) *Board {
@@ -99,9 +99,6 @@ func (b *Board) InitPlaceability(color int) {
 //石を置くとどの方向にひっくり返せるか確認
 func (b *Board) checkPlaceability(x int, y int, color int) int {
 	var sum = 0
-	// if b.StonesPos[x][y] != 0 {
-	// 	return sum
-	// }
 	dirList := DirList()
 	for _, dir := range dirList {
 		if b.checkPlaceabilityVector(x, y, dir.DirectionVecX, dir.DirectionVecY, color) {
