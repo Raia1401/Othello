@@ -1,0 +1,21 @@
+version: "3"
+services:
+  db:
+    #image: mysql:5.7
+    # volumes:
+    # - ./initdb.d:/docker-entrypoint-initdb.d
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+    - db_volume:/var/lib/mysql
+    environment:
+    - MYSQL_DATABASE=othello
+    - MYSQL_USER=user
+    - MYSQL_PASSWORD=password
+    - MYSQL_ROOT_PASSWORD=root
+    ports:
+      - 3306:3306
+
+volumes:
+  db_volume:
