@@ -1,10 +1,10 @@
 import './App.css';
-// import Board from './componetns/Board';
+import MainPage from './pages/MainPage';
 
 function App() {
   return (
     <div className="App">
-      {/* <Board/> */}
+       <MainPage/>
     </div>
   );
 }

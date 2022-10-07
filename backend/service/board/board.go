@@ -8,9 +8,6 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-//参考
-//https://ruby-de-free.net/wp/how-to-make-othello-program-using-python-4/
-
 type Board struct {
 	StonesPos       [BOARD_SIZE + 2][BOARD_SIZE + 2]int  //石の置いてある場所
 	PlaceabilityPos [BOARD_SIZE + 2][BOARD_SIZE + 2]bool //これから石が置ける場所
