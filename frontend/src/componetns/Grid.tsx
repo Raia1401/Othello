@@ -1,17 +1,21 @@
 import './Grid.css'
-import drawSquare from './drawSquare'
+import DrawSquare from './DrawSquare'
 
-function Grid(props:{stonesPosition:number[][]}){
-  const BOARD_SIZE:number =5
+
+
+const Grid:React.FC<{stonesPos:number[][]}>=(props)=>{
+
+  const BOARD_SIZE:number=8
   const grid=[]
-  var rows=[]
-  for (var x=0; x< BOARD_SIZE; x++){
-    for (var y=0; y< BOARD_SIZE; y++){
-      var stoneColor = props.stonesPosition[x][y]
-      rows.push(drawSquare(x,y,stoneColor))
+  let row=[]
+
+  for (let x=0; x< BOARD_SIZE; x++){
+    for (let y=0; y< BOARD_SIZE; y++){
+      let stoneColor:number =props.stonesPos[x][y]
+      row.push(<DrawSquare x={x} y={y} colorOfStone={stoneColor}/>)
     }
-    grid.push(<div className='Grid-row'>{rows}</div>)
-    rows=[]
+    grid.push(<div className='Grid-row'>{row}</div>)
+    row=[]
   }
 
   return (

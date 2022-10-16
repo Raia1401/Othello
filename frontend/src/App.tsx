@@ -1,11 +1,15 @@
 import './App.css';
-import MainPage from './pages/MainPage';
+import GamePage from './pages/GamePage';
+import { BoardDataProvider } from './providers/BoardDataProvider';
+import { UserDataProvider } from './providers/UserDataProvider';
 
 function App() {
   return (
-    <div className="App">
-       <MainPage/>
-    </div>
+    <BoardDataProvider>
+    <UserDataProvider>
+      <GamePage/>
+    </UserDataProvider>
+    </BoardDataProvider>
   );
 }
 
