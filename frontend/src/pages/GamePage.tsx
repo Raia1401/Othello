@@ -3,10 +3,16 @@ import { useStonesPos } from "../hooks/useStonesPos";
 
 function GamePage(){
   let stonesPos = useStonesPos()
+  // console.log("let stonesPos:",stonesPos)
 
   return (
-    // <Grid stonesPosition={[[0,0,1,2,1],[0,0,1,2,1],[0,0,1,2,1],[0,0,1,2,1],[0,0,1,2,1]]}/>
-    <Grid stonesPos={stonesPos}/>
+    <>
+    { stonesPos.length ?
+      <Grid stonesPos={stonesPos}/>
+      :
+      <h1>Now Loading...</h1>
+    }
+    </>
   )
 
 }

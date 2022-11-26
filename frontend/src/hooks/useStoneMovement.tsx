@@ -11,9 +11,9 @@ export const useStoneMovement=()=>{
 
     const onClickBoard = (x:number,y:number,colorOfStone:number) =>{
         console.log(x,y)
-        const stoneMovement={"userId":userDataCtx.userId,"x":x,"y":y,"colorOfStone":colorOfStone}
+        const stoneMovement={"user_id":userDataCtx.userId,"x":x,"y":y,"color":colorOfStone}
         apis.updateStonePos(boardDataCtx.boardId, stoneMovement).then((boardData:BoardData)=>{
-            boardDataCtx.setStonesPos(boardData.board)
+        //     boardDataCtx.setStonesPos(boardData.data.Board)
         })
     }
 

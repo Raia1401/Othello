@@ -7,6 +7,8 @@ type Square ={
   colorOfStone:number
 }
 
+const myColor=1
+
 const DrawSquare:React.FC<Square>=(props)=>{
 
   const {x,y,colorOfStone}=props
@@ -24,7 +26,7 @@ const DrawSquare:React.FC<Square>=(props)=>{
           <div className="Square-stone Square-stone-white"></div>
         </div>
         :
-        <div className="Square Click" onClick={() => onClickBoard(x,y,colorOfStone)}></div>
+        <div className="Square Click" onClick={() => onClickBoard(x+1,y+1,myColor)}></div>
     }
     </>
   )

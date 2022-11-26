@@ -5,11 +5,11 @@ import { UserDataProvider } from './providers/UserDataProvider';
 
 function App() {
   return (
-    <BoardDataProvider>
     <UserDataProvider>
-      <GamePage/>
+      <BoardDataProvider>
+        <GamePage/>
+      </BoardDataProvider>
     </UserDataProvider>
-    </BoardDataProvider>
   );
 }
 

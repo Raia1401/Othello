@@ -1,6 +1,6 @@
 
 export type BoardData ={
-  boardId: number,
-  board: string,
-  isMyTurn: boolean
+  data:{BoardId: number,
+    Board: string,
+    IsMyTurn: boolean}
 }

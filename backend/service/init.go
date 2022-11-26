@@ -28,8 +28,8 @@ func init() {
 		log.Fatal(err)
 	}
 
-	// Create new GameMatch table
-	err = engine.Sync2(new(model.GameMatch))
+	// Create new Board table
+	err = engine.Sync2(new(model.Board))
 	if err != nil {
 		log.Fatal(err)
 	}

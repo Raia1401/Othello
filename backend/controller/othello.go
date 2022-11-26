@@ -9,59 +9,72 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var userId = int64(1)
-
 //POST method
 func CreateGameMatch(c *gin.Context) {
-	gameMatchService := service.GameMatchService{}
-	err := gameMatchService.CreateGameMatch(userId)
-	if err != nil {
-		c.String(http.StatusInternalServerError, "Server Error")
-		return
-	}
-	c.JSON(http.StatusCreated, gin.H{
-		"status": "ok",
-	})
-}
 
-//GET method
-func GetGameMatch(c *gin.Context) {
-	gameMatchService := service.GameMatchService{}
-	gameMatch, err := gameMatchService.GetGameMatch(userId)
+	params, err := checkFormValue(c, "user_id")
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{
 			"message": "Bad request",
 		})
+		return
+	}
+	userId := params[0]
+
+	gameMatchService := service.GameMatchService{}
+	err = gameMatchService.CreateGameMatch(int64(userId))
+	if err != nil {
+		c.String(http.StatusInternalServerError, "Server Error")
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{
+		"status": "ok",
+	})
+
+}
+
+//GET method
+func GetGameMatch(c *gin.Context) {
+
+	boardId, err := strconv.Atoi(c.Param("board_id"))
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "board_id should be sended"})
+		return
+	}
+	gameMatchService := service.GameMatchService{}
+	gameMatch, err := gameMatchService.GetGameMatch(int64(boardId))
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "Bad request"})
 		return
 	}
 	c.JSONP(http.StatusOK, gin.H{
 		"message": "ok",
 		"data":    gameMatch,
 	})
-
-	// for i := 0; i < 100; {
-	// 	fmt.Println(gameMatch.Board[i : i+10])
-	// 	i += 10
-	// }
 }
 
 //PUT method
 func PutDownStone(c *gin.Context) {
 
-	params, err := queryCheck(c, "userId", "x", "y", "color")
+	boardId, err := strconv.Atoi(c.Param("board_id"))
 	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
-		})
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "board_id should be sended"})
 		return
 	}
-	userId, x, y, color := params[0], params[1], params[2], params[3]
-	gameMatchService := service.GameMatchService{}
-	err = gameMatchService.PutDownStone(int64(userId), x, y, color)
+
+	params, err := checkFormValue(c, "x", "y", "color")
 	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{
-			"message": "you can't put down the stone",
-		})
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "x,y,color should be sended"})
+		return
+	}
+
+	x, y, color := params[0], params[1], params[2]
+
+	gameMatchService := service.GameMatchService{}
+	err = gameMatchService.PutDownStone(int64(boardId), x, y, color)
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "you can't put down the stone"})
 		return
 	}
 
@@ -70,38 +83,40 @@ func PutDownStone(c *gin.Context) {
 
 //PUT method
 func PutDownStoneByOpponent(c *gin.Context) {
-	params, err := queryCheck(c, "userId", "color")
+
+	boardId, err := strconv.Atoi(c.Param("board_id"))
 	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
-		})
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "board_id should be sended"})
 		return
 	}
-	userId, color := params[0], params[1]
+	params, err := checkFormValue(c, "color")
+	if err != nil {
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "Bad request"})
+		return
+	}
+	color := params[0]
+
 	gameMatchService := service.GameMatchService{}
-	err = gameMatchService.PutDownStoneByOpponent(int64(userId), color)
+	err = gameMatchService.PutDownStoneByOpponent(int64(boardId), color)
 
 	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{
-			"message": "opponent can't put down the stone",
-		})
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "opponent can't put down the stone"})
 		return
 	}
 	c.JSONP(http.StatusNoContent, gin.H{})
 
 }
 
-//get query string in request data
-func queryCheck(c *gin.Context, paramList ...string) ([]int, error) {
-	var params []int
-	for _, paramName := range paramList {
-		param, err := strconv.Atoi(c.Query(paramName))
+//get form value in request data
+func checkFormValue(c *gin.Context, formList ...string) ([]int, error) {
+	var formValueList []int
+	for _, formValueName := range formList {
+		formValue, err := strconv.Atoi(c.Request.FormValue(formValueName))
 		if err != nil {
-			err := errors.New("param is not correct")
-			return params, err
+			err := errors.New("queryString is not correct")
+			return formValueList, err
 		}
-		params = append(params, param)
+		formValueList = append(formValueList, formValue)
 	}
-
-	return params, nil
+	return formValueList, nil
 }
