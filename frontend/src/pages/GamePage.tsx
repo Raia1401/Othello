@@ -1,16 +1,25 @@
 import Grid from "../componetns/Grid";
-import { useStonesPos } from "../hooks/useStonesPos";
+import { useBoardData } from "../hooks/useBoardData";
+import {Loding} from "../componetns/Loding"
 
 function GamePage(){
-  let stonesPos = useStonesPos()
-  // console.log("let stonesPos:",stonesPos)
+  // let all = useBoardData()
+  // let stonesPos=all[2]
+
+  let {boardId,isMyTurn,stonesPos} = useBoardData()
+  console.log("let isMyTurn:",isMyTurn)
 
   return (
     <>
-    { stonesPos.length ?
-      <Grid stonesPos={stonesPos}/>
+    {stonesPos.length ?
+      isMyTurn ?
+        <Grid stonesPos={stonesPos}/>
+        :
+        <Loding>
+          <Grid stonesPos={stonesPos}/>
+        </Loding>
       :
-      <h1>Now Loading...</h1>
+      <h1>Wait a seconds...</h1>
     }
     </>
   )

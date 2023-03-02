@@ -49,7 +49,7 @@ func (GameMatchService) PutDownStone(boardId int64, putStoneX int, putStoneY int
 		return err
 	}
 
-	boardModel = model.Board{Board: board.GetStonesPos()}
+	boardModel = model.Board{Board: board.GetStonesPos(), IsMyTurn: false}
 	_, err = engine.Where("board_id=?", boardId).Update(&boardModel)
 	if err != nil {
 		return err

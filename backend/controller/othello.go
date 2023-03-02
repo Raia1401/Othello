@@ -13,6 +13,7 @@ import (
 func CreateGameMatch(c *gin.Context) {
 
 	params, err := checkFormValue(c, "user_id")
+
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{
 			"message": "Bad request",
@@ -45,6 +46,7 @@ func GetGameMatch(c *gin.Context) {
 	gameMatchService := service.GameMatchService{}
 	gameMatch, err := gameMatchService.GetGameMatch(int64(boardId))
 	if err != nil {
+		println(err)
 		c.JSONP(http.StatusBadRequest, gin.H{"message": "Bad request"})
 		return
 	}

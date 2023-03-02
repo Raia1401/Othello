@@ -1,6 +1,6 @@
 import {createContext,useState} from "react"
+import * as settings from "../settings/settings"
 
-const defaultUserId=1
 
 export const UserDataContext = createContext({} as {
   userId:number,
@@ -9,7 +9,7 @@ export const UserDataContext = createContext({} as {
 
 export const UserDataProvider:React.FC<{children: React.ReactNode}> = (props)=>{
 
-  const [userId,setUserId]=useState<number>(defaultUserId)
+  const [userId,setUserId]=useState<number>(settings.defaultUserId)
 
   return (
     <UserDataContext.Provider value={{userId,setUserId}}>

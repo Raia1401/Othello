@@ -10,11 +10,14 @@ export const useStoneMovement=()=>{
     const boardDataCtx=useContext(BoardDataContext)
 
     const onClickBoard = (x:number,y:number,colorOfStone:number) =>{
-        console.log(x,y)
-        const stoneMovement={"user_id":userDataCtx.userId,"x":x,"y":y,"color":colorOfStone}
-        apis.updateStonePos(boardDataCtx.boardId, stoneMovement).then((boardData:BoardData)=>{
-        //     boardDataCtx.setStonesPos(boardData.data.Board)
-        })
+        // console.log(x,y)
+        if (boardDataCtx.isMyTurn){
+            const stoneMovement={"user_id":userDataCtx.userId,"x":x,"y":y,"color":colorOfStone}
+            apis.updateStonePos(boardDataCtx.boardId, stoneMovement).then((boardData:BoardData)=>{
+                window.location.reload()
+            //     boardDataCtx.setStonesPos(boardData.data.Board)
+            })
+        }
     }
 
     return onClickBoard

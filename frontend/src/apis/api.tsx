@@ -6,7 +6,10 @@ const rootURL:string = process.env.REACT_APP_API || ""
 
 //ユーザーのゲーム盤面を新規作成
 export const postBoardData = async (userId:number)=>{
-  const response =await axios.post(rootURL,{"user_id":userId})
+  // console.log(userId)
+  const params = new URLSearchParams();
+  params.append('user_id',userId.toString())
+  const response =await axios.post(rootURL,params)
   return response.data
 }
 
