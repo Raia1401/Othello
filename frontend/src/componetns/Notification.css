@@ -1,0 +1,23 @@
+.myturn-notification {
+  background-color: #87ceeb;
+  width: 600px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 5px auto ;
+  font-size: 20px;
+  font-weight: bold;
+  color: #0155c4;
+  border: 1px solid #576ee2;
+}
+
+.opponentturn-notification {
+  background-color: #f6b1f9;
+  width: 600px;
+  text-align: center;
+  border-radius: 5px;
+  margin: 5px auto ;
+  font-size: 20px;
+  font-weight: bold;
+  color: #e21676;
+  border: 1px solid #e21616;
+}

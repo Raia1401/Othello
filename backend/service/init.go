@@ -22,20 +22,11 @@ func init() {
 		return
 	}
 
-	// Create new User table
-	err = engine.Sync2(new(model.User))
-	if err != nil {
-		log.Fatal(err)
-	}
-
 	// Create new Board table
 	err = engine.Sync2(new(model.Board))
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	user := model.User{UserId: 1, UserName: "taro", Password: "password"}
-	_, err = engine.Table("user").Insert(user)
 
 	fmt.Println("init Database succeed")
 }

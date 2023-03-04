@@ -1,6 +1,5 @@
 import React from "react"
 import { useEffect,useContext,useState} from "react";
-import { UserDataContext } from "../providers/UserDataProvider";
 import { BoardDataContext} from "../providers/BoardDataProvider";
 import * as apis from "../apis/api";
 import type { BoardData } from "../types/BoardData";
@@ -24,37 +23,26 @@ const convStringToArray = (rawStonesPos:string) => {
 }
 
 
-export const useBoardData=()=>{
+export const useBoardData=(boardId:number,isMyTurn:boolean)=>{
 
     // const userDataCtx=useContext(UserDataContext)
-    const [boardId,setBoardId]=useState<number>(0)
-    const [isMyTurn,setIsMyturn]=useState<boolean>(false)
+    // const [boardId,setBoardId]=useState<number>(0)
+    // const [isMyTurn,setIsMyturn]=useState<boolean>(false)
     const [stonesPos,setStonesPos]=useState<number[][]>([])
-    // const boardDataCtx=useContext(BoardDataContext)
+
+    // const {boardId,setBoardId} = useContext(BoardDataContext)
     // userDataCtx.userId
 
     useEffect(()=>{
-      apis.getBoardData(1).then((boardData:BoardData)=>{
+      apis.getBoardData(boardId).then((boardData:BoardData)=>{
         // console.log("boardData.data.Board",boardData.data.Board)
         // const stonePosArray = convStringToArray(boardData.data.Board)
         // console.log("stonePosArray",stonePosArray)
-        setBoardId(boardData.data.BoardId)
+        // setBoardId(boardData.data.BoardId)
         setStonesPos(convStringToArray(boardData.data.Board))
-        setIsMyturn(boardData.data.IsMyTurn)
+        // setIsMyturn(boardData.data.IsMyTurn)
       })
-    },[])
-    // apis.getBoardData(userDataCtx.userId).then((boardData:BoardData)=>{
-    //   const stonePosArray = convStringToArray(boardData.data.Board)
-    //   console.log(stonePosArray)
-    //   setStonesPos(stonePosArray)
-    // })
+    },[boardId,isMyTurn])
 
-    // useEffect(()=>{
-    //   console.log(stonesPos)
-    // },[stonesPos])
-  
-    
-    // return boardDataCtx.stonesPos
-    // return [boardId,isMyTurn,stonesPos];
-    return {boardId:boardId,isMyTurn:isMyTurn,stonesPos:stonesPos}
+    return {stonesPos:stonesPos}
 }

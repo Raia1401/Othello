@@ -3,6 +3,7 @@ package controller
 import (
 	"backend/service"
 	"errors"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -12,18 +13,8 @@ import (
 //POST method
 func CreateGameMatch(c *gin.Context) {
 
-	params, err := checkFormValue(c, "user_id")
-
-	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{
-			"message": "Bad request",
-		})
-		return
-	}
-	userId := params[0]
-
 	gameMatchService := service.GameMatchService{}
-	err = gameMatchService.CreateGameMatch(int64(userId))
+	gameMatch, err := gameMatchService.CreateGameMatch()
 	if err != nil {
 		c.String(http.StatusInternalServerError, "Server Error")
 		return
@@ -31,8 +22,8 @@ func CreateGameMatch(c *gin.Context) {
 
 	c.JSON(http.StatusCreated, gin.H{
 		"status": "ok",
+		"data":   gameMatch,
 	})
-
 }
 
 //GET method
@@ -67,20 +58,24 @@ func PutDownStone(c *gin.Context) {
 
 	params, err := checkFormValue(c, "x", "y", "color")
 	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{"message": "x,y,color should be sended"})
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "x,y,my stone color should be sended"})
 		return
 	}
 
 	x, y, color := params[0], params[1], params[2]
 
 	gameMatchService := service.GameMatchService{}
-	err = gameMatchService.PutDownStone(int64(boardId), x, y, color)
+	gameMatch, err := gameMatchService.PutDownStone(int64(boardId), x, y, color)
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{"message": "you can't put down the stone"})
 		return
 	}
 
-	c.JSONP(http.StatusNoContent, gin.H{})
+	// c.JSONP(http.StatusNoContent, gin.H{})
+	c.JSONP(http.StatusOK, gin.H{
+		"message": "ok",
+		"data":    gameMatch,
+	})
 }
 
 //PUT method
@@ -91,21 +86,27 @@ func PutDownStoneByOpponent(c *gin.Context) {
 		c.JSONP(http.StatusBadRequest, gin.H{"message": "board_id should be sended"})
 		return
 	}
+
 	params, err := checkFormValue(c, "color")
 	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{"message": "Bad request"})
+		c.JSONP(http.StatusBadRequest, gin.H{"message": "my stone color should be sended"})
 		return
 	}
 	color := params[0]
 
 	gameMatchService := service.GameMatchService{}
-	err = gameMatchService.PutDownStoneByOpponent(int64(boardId), color)
+	gameMatch, err := gameMatchService.PutDownStoneByOpponent(int64(boardId), color)
+	fmt.Println(err)
 
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{"message": "opponent can't put down the stone"})
 		return
 	}
-	c.JSONP(http.StatusNoContent, gin.H{})
+	// c.JSONP(http.StatusNoContent, gin.H{})
+	c.JSONP(http.StatusOK, gin.H{
+		"message": "ok",
+		"data":    gameMatch,
+	})
 
 }
 
