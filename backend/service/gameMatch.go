@@ -5,7 +5,6 @@ import (
 	"backend/service/agent"
 	"backend/service/board"
 	"errors"
-	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -57,14 +56,14 @@ func (GameMatchService) PutDownStone(boardId int64, putStoneX int, putStoneY int
 
 	boardModel.Board = board.GetStonesPos()
 	boardModel.IsMyTurn = false
-	boardModel.DeleteFlag = true
-	_, err = engine.Where("board_id=?", boardId).Update(boardModel)
+	_, err = engine.Where("board_id=?", boardId).AllCols().Update(boardModel)
+
 	if err != nil {
 		return boardModel, err
 	}
-	fmt.Println(boardModel)
 
 	return boardModel, nil
+
 }
 
 func (GameMatchService) PutDownStoneByOpponent(boardId int64, color int) (model.Board, error) {
@@ -74,8 +73,6 @@ func (GameMatchService) PutDownStoneByOpponent(boardId int64, color int) (model.
 		return boardModel, err
 	}
 
-	fmt.Println(boardModel)
-
 	if boardModel.IsMyTurn {
 		err := errors.New("its not opponents turn")
 		return boardModel, err
@@ -84,7 +81,7 @@ func (GameMatchService) PutDownStoneByOpponent(boardId int64, color int) (model.
 	board := board.NewBoard()
 	board = board.SetStonesPos(boardModel.Board)
 
-	opponent := agent.Opponent{}
+	opponent := agent.Agent{}
 	x, y := opponent.FindPosToPutDown(board, (color ^ 3))
 	_, err = board.PutDownStone(x, y, (color ^ 3))
 	if err != nil {
@@ -94,10 +91,27 @@ func (GameMatchService) PutDownStoneByOpponent(boardId int64, color int) (model.
 	boardModel.Board = board.GetStonesPos()
 	boardModel.IsMyTurn = true
 
-	_, err = engine.Where("board_id=?", boardId).Update(&boardModel)
+	if IsMatchEnd(board, color) {
+		boardModel.IsMatchEnd = true
+	}
+
+	_, err = engine.Where("board_id=?", boardId).AllCols().Update(&boardModel)
 	if err != nil {
 		return boardModel, err
 	}
 
 	return boardModel, nil
+}
+
+func IsMatchEnd(b *board.Board, color int) bool {
+	opponent := agent.Agent{}
+	x, y := opponent.FindPosToPutDown(b, (color ^ 3))
+	if x == 0 && y == 0 {
+		myagent := agent.Agent{}
+		x, y := myagent.FindPosToPutDown(b, (color))
+		if x == 0 && y == 0 {
+			return true
+		}
+	}
+	return false
 }

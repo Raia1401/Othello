@@ -13,6 +13,7 @@
 .opponentturn-notification {
   background-color: #f6b1f9;
   width: 600px;
+  height: 63px;
   text-align: center;
   border-radius: 5px;
   margin: 5px auto ;
@@ -20,4 +21,7 @@
   font-weight: bold;
   color: #e21676;
   border: 1px solid #e21616;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

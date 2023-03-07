@@ -61,6 +61,10 @@ func (b *Board) PutDownStone(x int, y int, color int) (bool, error) {
 
 	b.InitPlaceability(color)
 	err := errors.New("you can't put down the stone here")
+	if x == 0 && y == 0 {
+		//パスを選択した場合
+		return true, nil
+	}
 	if x < 1 || BOARD_SIZE < x {
 		return false, err
 	}
@@ -83,6 +87,9 @@ func (b *Board) PutDownStone(x int, y int, color int) (bool, error) {
 func (b *Board) InitPlaceability(color int) {
 	for i := 1; i < BOARD_SIZE+1; i++ {
 		for j := 1; j < BOARD_SIZE+1; j++ {
+			if b.StonesPos[i][j] != 0 {
+				continue
+			}
 			dir := b.checkPlaceability(i, j, color)
 			b.PlaceabilityDir[i][j] = dir
 			if dir != 0 {

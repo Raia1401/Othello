@@ -3,7 +3,6 @@ package controller
 import (
 	"backend/service"
 	"errors"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -71,7 +70,6 @@ func PutDownStone(c *gin.Context) {
 		return
 	}
 
-	// c.JSONP(http.StatusNoContent, gin.H{})
 	c.JSONP(http.StatusOK, gin.H{
 		"message": "ok",
 		"data":    gameMatch,
@@ -96,12 +94,12 @@ func PutDownStoneByOpponent(c *gin.Context) {
 
 	gameMatchService := service.GameMatchService{}
 	gameMatch, err := gameMatchService.PutDownStoneByOpponent(int64(boardId), color)
-	fmt.Println(err)
 
 	if err != nil {
-		c.JSONP(http.StatusBadRequest, gin.H{"message": "opponent can't put down the stone"})
+		c.JSONP(http.StatusBadRequest, gin.H{"msg": err.Error()})
 		return
 	}
+
 	// c.JSONP(http.StatusNoContent, gin.H{})
 	c.JSONP(http.StatusOK, gin.H{
 		"message": "ok",

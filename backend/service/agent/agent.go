@@ -7,10 +7,10 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type Opponent struct {
+type Agent struct {
 }
 
-func (o Opponent) FindPosToPutDown(b *board.Board, color int) (int, int) {
+func (a Agent) FindPosToPutDown(b *board.Board, color int) (int, int) {
 	b.InitPlaceability(color)
 	placeabilityPos := b.PlaceabilityPos
 	bestX := 0
@@ -20,7 +20,7 @@ func (o Opponent) FindPosToPutDown(b *board.Board, color int) (int, int) {
 	for x, _ := range placeabilityPos {
 		for y, _ := range placeabilityPos[0] {
 			if placeabilityPos[x][y] {
-				evaluetion := o.getEvaluation(b, x, y, color)
+				evaluetion := a.getEvaluation(b, x, y, color)
 				if evaluetion > bestEvaluetion {
 					bestEvaluetion = evaluetion
 					bestX = x
@@ -32,8 +32,7 @@ func (o Opponent) FindPosToPutDown(b *board.Board, color int) (int, int) {
 	return bestX, bestY
 }
 
-func (Opponent) getEvaluation(b *board.Board, x int, y int, color int) float64 {
-	// stonesPos := b.StonesPos
+func (Agent) getEvaluation(b *board.Board, x int, y int, color int) float64 {
 	var board_copy *board.Board = &board.Board{}
 	*board_copy = *b
 	board_copy.PutDownStone(x, y, color)
@@ -45,7 +44,6 @@ func (Opponent) getEvaluation(b *board.Board, x int, y int, color int) float64 {
 		for j := 1; j < board.BOARD_SIZE+1; j++ {
 			if board_copy.StonesPos[i][j] == color {
 				evaluetionSum += positionEvaluetion[i][j]
-				// fmt.Println("ev", positionEvaluetion[i][j])
 			}
 		}
 	}

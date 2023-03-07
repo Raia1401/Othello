@@ -23,6 +23,7 @@ function GamePage(){
   let {stonesPos} = useBoardData(boardDataCtx.boardId,boardDataCtx.isMyTurn)
 
   return (
+    <div className="contents">
     <>
     {stonesPos.length ?
       <Notification isMyTurn={boardDataCtx.isMyTurn}>
@@ -31,10 +32,12 @@ function GamePage(){
       :
       <div>
           <h1>オセロゲーム</h1>
-          <div className="button" onClick={() => onClick()}>新規ゲームを始める</div>
+          <div className="newgame_button" onClick={() => onClick()}>新規ゲームを始める</div>
       </div>
     }
     </>
+      <div　className="pass_button">パスをする</div>
+    </div>
   )
 
 }

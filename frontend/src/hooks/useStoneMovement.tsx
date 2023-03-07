@@ -20,7 +20,6 @@ export const useStoneMovement=()=>{
         }
 
         window.setTimeout(function(){
-            console.log('タイマーが作動した')
             apis.updateStonePosByOpponent(boardDataCtx.boardId,colorOfStone).then((boardData:BoardData)=>{
                     boardDataCtx.setBoardId(boardData.data.BoardId)
                     boardDataCtx.setIsMyTurn(boardData.data.IsMyTurn)

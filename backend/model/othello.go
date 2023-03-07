@@ -10,7 +10,5 @@ type Board struct {
 	CreatedAt  time.Time `xorm:"created 'created_at'"`
 	IsMatchEnd bool      `xorm:"default false 'is_match_end'" `
 	IsMyTurn   bool      `xorm:"default true 'is_my_turn'" `
-	DeleteFlag bool      `xorm:"default false 'DeleteFlag'"`
+	DeleteFlag bool      `xorm:"default false 'delete_flag'"`
 }
-
-// DeleteFlag bool      `xorm:"default false 'delete_flag'"`
