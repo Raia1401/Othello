@@ -2,5 +2,6 @@
 export type BoardData ={
   data:{BoardId: number,
     Board: string,
-    IsMyTurn: boolean}
+    IsMyTurn: boolean,
+    IsMatchEnd:boolean}
 }

@@ -2,7 +2,7 @@
 export type StoneMovement ={
   "x": number
   "y": number
-  "color": number
+  "my_stone_color": number
 }
 
 

@@ -9,15 +9,12 @@ export const useStoneMovement=()=>{
 
     const onClickBoard = (x:number,y:number,colorOfStone:number) =>{
 
-        //TODO：自分のターンかどうかを把握する処理
-        if (true){
-            const stoneMovement={"x":x,"y":y,"color":colorOfStone}
-            apis.updateStonePos(boardDataCtx.boardId, stoneMovement).then((boardData:BoardData)=>{
-                boardDataCtx.setBoardId(boardData.data.BoardId)
-                boardDataCtx.setIsMyTurn(boardData.data.IsMyTurn)
-                console.log("updateStonePos",boardData.data.IsMyTurn)
-            })
-        }
+        const stoneMovement={"x":x,"y":y,"my_stone_color":colorOfStone}
+        apis.updateStonePos(boardDataCtx.boardId, stoneMovement).then((boardData:BoardData)=>{
+            boardDataCtx.setBoardId(boardData.data.BoardId)
+            boardDataCtx.setIsMyTurn(boardData.data.IsMyTurn)
+            console.log("updateStonePos",boardData.data.IsMyTurn)
+        })
 
         window.setTimeout(function(){
             apis.updateStonePosByOpponent(boardDataCtx.boardId,colorOfStone).then((boardData:BoardData)=>{

@@ -12,15 +12,15 @@ export const postBoardData = async ()=>{
 
 //ユーザーのゲーム盤面を取得
 export const getBoardData = async (boardId:number)=>{
-  const response = await axios.get(`${rootURL}/${boardId}`)
+  const response = await axios.get(`${rootURL}${boardId}`)
   return response.data
 }
 
 //ユーザーが石を置いて盤面を更新する処理
 export const updateStonePos = async (boardId:number,stoneMovement:StoneMovement)=>{
-  console.log(stoneMovement)
-  const response = await axios.put(`${rootURL}/myself/${boardId}`,
-    stoneMovement,
+  const response = await axios.put(`${rootURL}${boardId}`,
+    {is_my_turn:true,
+    ...stoneMovement},
     {headers: {
       "Content-Type": "multipart/form-data",
     }})
@@ -29,8 +29,10 @@ export const updateStonePos = async (boardId:number,stoneMovement:StoneMovement)
 
 //ユーザーの対戦相手（コンピューター）が石を置いて盤面を更新する処理
 export const updateStonePosByOpponent = async (boardId:number,color:number)=>{
-  const response = await axios.put(`${rootURL}/opponent/${boardId}`,
-    {color:color},
+  const response = await axios.put(`${rootURL}${boardId}`,
+    { is_my_turn:false,
+      my_stone_color:color
+    },
     {headers: {
       "Content-Type": "multipart/form-data",
     }})

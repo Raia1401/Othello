@@ -1,6 +1,5 @@
 import React from "react"
-import { useEffect,useContext,useState} from "react";
-import { BoardDataContext} from "../providers/BoardDataProvider";
+import { useEffect,useState} from "react";
 import * as apis from "../apis/api";
 import type { BoardData } from "../types/BoardData";
 import * as settings from "../settings/settings"
@@ -29,6 +28,7 @@ export const useBoardData=(boardId:number,isMyTurn:boolean)=>{
     // const [boardId,setBoardId]=useState<number>(0)
     // const [isMyTurn,setIsMyturn]=useState<boolean>(false)
     const [stonesPos,setStonesPos]=useState<number[][]>([])
+    const [isMatchEnd,setIsMatchEnd]=useState<boolean>(false)
 
     // const {boardId,setBoardId} = useContext(BoardDataContext)
     // userDataCtx.userId
@@ -40,9 +40,10 @@ export const useBoardData=(boardId:number,isMyTurn:boolean)=>{
         // console.log("stonePosArray",stonePosArray)
         // setBoardId(boardData.data.BoardId)
         setStonesPos(convStringToArray(boardData.data.Board))
+        setIsMatchEnd(boardData.data.IsMatchEnd)
         // setIsMyturn(boardData.data.IsMyTurn)
       })
     },[boardId,isMyTurn])
 
-    return {stonesPos:stonesPos}
+    return {stonesPos:stonesPos,isMatchEnd:isMatchEnd}
 }

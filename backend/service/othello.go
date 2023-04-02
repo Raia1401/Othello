@@ -5,13 +5,14 @@ import (
 	"backend/service/agent"
 	"backend/service/board"
 	"errors"
+	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 )
 
-type GameMatchService struct{}
+type OthelloService struct{}
 
-func (GameMatchService) CreateGameMatch() (model.Board, error) {
+func (OthelloService) CreateBoard() (model.Board, error) {
 
 	board := board.NewBoard()
 	stonesPlace := board.GetStonesPos()
@@ -23,7 +24,7 @@ func (GameMatchService) CreateGameMatch() (model.Board, error) {
 	return boardModel, nil
 }
 
-func (GameMatchService) GetGameMatch(boardId int64) (model.Board, error) {
+func (OthelloService) GetBoard(boardId int64) (model.Board, error) {
 	boardModel := model.Board{}
 	has, err := engine.Where("board_id=?", boardId).Get(&boardModel)
 	if err != nil {
@@ -33,10 +34,14 @@ func (GameMatchService) GetGameMatch(boardId int64) (model.Board, error) {
 		err := errors.New("id is not correct")
 		return boardModel, err
 	}
+	if IsMatchEnd(boardModel) {
+		fmt.Println("マッチが終わった")
+		boardModel.IsMatchEnd = true
+	}
 	return boardModel, nil
 }
 
-func (GameMatchService) PutDownStone(boardId int64, putStoneX int, putStoneY int, color int) (model.Board, error) {
+func (OthelloService) PutDownStone(boardId int64, putStoneX int, putStoneY int, myStoneColor int) (model.Board, error) {
 	boardModel := model.Board{}
 	_, err := engine.Where("board_id=?", boardId).Get(&boardModel)
 	if err != nil {
@@ -49,13 +54,14 @@ func (GameMatchService) PutDownStone(boardId int64, putStoneX int, putStoneY int
 
 	board := board.NewBoard()
 	board = board.SetStonesPos(boardModel.Board)
-	_, err = board.PutDownStone(putStoneX, putStoneY, color)
+	_, err = board.PutDownStone(putStoneX, putStoneY, myStoneColor)
 	if err != nil {
 		return boardModel, err
 	}
 
 	boardModel.Board = board.GetStonesPos()
 	boardModel.IsMyTurn = false
+
 	_, err = engine.Where("board_id=?", boardId).AllCols().Update(boardModel)
 
 	if err != nil {
@@ -66,7 +72,9 @@ func (GameMatchService) PutDownStone(boardId int64, putStoneX int, putStoneY int
 
 }
 
-func (GameMatchService) PutDownStoneByOpponent(boardId int64, color int) (model.Board, error) {
+func (OthelloService) PutDownStoneByOpponent(boardId int64, myStoneColor int) (model.Board, error) {
+
+	opponentStoneColor := (myStoneColor ^ 3)
 	boardModel := model.Board{}
 	_, err := engine.Where("board_id=?", boardId).Get(&boardModel)
 	if err != nil {
@@ -82,18 +90,14 @@ func (GameMatchService) PutDownStoneByOpponent(boardId int64, color int) (model.
 	board = board.SetStonesPos(boardModel.Board)
 
 	opponent := agent.Agent{}
-	x, y := opponent.FindPosToPutDown(board, (color ^ 3))
-	_, err = board.PutDownStone(x, y, (color ^ 3))
+	x, y := opponent.FindPosToPutDown(board, opponentStoneColor)
+	_, err = board.PutDownStone(x, y, opponentStoneColor)
 	if err != nil {
 		return boardModel, err
 	}
 
 	boardModel.Board = board.GetStonesPos()
 	boardModel.IsMyTurn = true
-
-	if IsMatchEnd(board, color) {
-		boardModel.IsMatchEnd = true
-	}
 
 	_, err = engine.Where("board_id=?", boardId).AllCols().Update(&boardModel)
 	if err != nil {
@@ -103,12 +107,19 @@ func (GameMatchService) PutDownStoneByOpponent(boardId int64, color int) (model.
 	return boardModel, nil
 }
 
-func IsMatchEnd(b *board.Board, color int) bool {
-	opponent := agent.Agent{}
-	x, y := opponent.FindPosToPutDown(b, (color ^ 3))
+func IsMatchEnd(boardModel model.Board) bool {
+
+	b := board.NewBoard()
+	b = b.SetStonesPos(boardModel.Board)
+
+	myagent := agent.Agent{}
+	x, y := myagent.FindPosToPutDown(b, board.BLACK_STONE)
+	fmt.Println("my")
+	fmt.Println(x, y)
 	if x == 0 && y == 0 {
-		myagent := agent.Agent{}
-		x, y := myagent.FindPosToPutDown(b, (color))
+		opponent := agent.Agent{}
+		x, y := opponent.FindPosToPutDown(b, board.WHITE_STONE)
+		fmt.Println("opponent", x, y)
 		if x == 0 && y == 0 {
 			return true
 		}

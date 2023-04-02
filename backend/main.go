@@ -22,10 +22,6 @@ func main() {
 			"Content-Length",
 			"Origin",
 		},
-		// ExposeHeaders: []string{
-		// 	"Content-Length",
-		// 	"Content-Type",
-		// },
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
@@ -34,13 +30,10 @@ func main() {
 	{
 		v1 := othelloRouter.Group("/v1")
 
-		//v1.POST("/users",controller.CreateUser)
-
-		v1.GET("/gamematch/:board_id", controller.GetGameMatch)
-		v1.POST("/gamematch", controller.CreateGameMatch)
-
-		v1.PUT("/gamematch/myself/:board_id", controller.PutDownStone)
-		v1.PUT("/gamematch/opponent/:board_id", controller.PutDownStoneByOpponent)
+		v1.POST("/", controller.CreateBoard)
+		v1.GET("/:board_id", controller.GetBoard)
+		v1.PUT("/:board_id", controller.UpdateBoard)
+		// v1.PUT("/gamematch/:board_id", controller.PutDownStoneByOpponent)
 
 	}
 
