@@ -1,8 +1,8 @@
 import React from "react"
 import { useEffect,useContext,useState} from "react";
-import { BoardDataContext} from "../providers/BoardDataProvider";
+import { BoardDataContext} from "../providers/boardDataProvider";
 import * as apis from "../apis/api";
-import type { BoardData } from "../types/BoardData";
+import type { BoardData } from "../types/boardData";
 
 
 export const useCreateGame=()=>{

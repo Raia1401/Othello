@@ -1,7 +1,7 @@
 import React from "react"
 import { useEffect,useState} from "react";
 import * as apis from "../apis/api";
-import type { BoardData } from "../types/BoardData";
+import type { BoardData } from "../types/boardData";
 import * as settings from "../settings/settings"
 
 

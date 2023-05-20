@@ -1,11 +1,13 @@
-import Grid from "../componetns/Grid";
-import { useBoardData } from "../hooks/useBoardData";
-import {Notification} from "../componetns/Notification"
 import {useContext} from "react";
+
+import './gamePage.css'
+import Grid from "../componetns/grid";
+import { useBoardData } from "../hooks/useBoardData";
 import * as apis from "../apis/api";
-import { BoardData } from "../types/BoardData";
-import './GamePage.css'
-import { BoardDataContext } from "../providers/BoardDataProvider";
+import { BoardData } from "../types/boardData";
+import { BoardDataContext } from "../providers/boardDataProvider";
+import ResultNotification from "../componetns/resultNotification";
+import TurnNotification from "../componetns/turnNotification"
 
 function GamePage(){
 
@@ -16,19 +18,19 @@ function GamePage(){
         boardDataCtx.setBoardId(boardData.data.BoardId)
       })
   }
+  
   let {stonesPos,isMatchEnd} = useBoardData(boardDataCtx.boardId,boardDataCtx.isMyTurn)
-  // let {stonesPos,isMatchEnd} = useBoardData(81,boardDataCtx.isMyTurn)
 
   return (
     <div className="contents">
     {isMatchEnd ? 
-      <div>終了です</div>
+      <ResultNotification stonesPos={stonesPos}/>
       :
       stonesPos.length ?
         <>
-          <Notification isMyTurn={boardDataCtx.isMyTurn}>
+          <TurnNotification isMyTurn={boardDataCtx.isMyTurn}>
             <Grid stonesPos={stonesPos}/>
-          </Notification>
+          </TurnNotification>
           <div　className="pass_button">パスをする</div>
         </>
         :

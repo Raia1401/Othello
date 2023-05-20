@@ -1,5 +1,5 @@
-import './Grid.css'
-import DrawSquare from './DrawSquare'
+import './grid.css'
+import DrawSquare from './drawSquare'
 
 
 
