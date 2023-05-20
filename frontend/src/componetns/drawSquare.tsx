@@ -1,4 +1,4 @@
-import './DrawSquare.css'
+import './drawSquare.css'
 import { useStoneMovement } from '../hooks/useStoneMovement';
 
 type Square ={

@@ -1,5 +1,5 @@
 import axios from "axios";
-import type { StoneMovement } from "../types/StoneMovement";
+import type { StoneMovement } from "../types/stoneMovement";
 
 const rootURL:string = process.env.REACT_APP_API || ""
 

@@ -1,8 +1,8 @@
-import "./Notification.css"
+import "./turnNotification.css"
 import {TailSpin} from 'react-loader-spinner'
 
 
-export const Notification:React.FC<{isMyTurn:boolean,children: React.ReactNode}>=(props)=>{
+const TurnNotification:React.FC<{isMyTurn:boolean,children: React.ReactNode}>=(props)=>{
 
   return (
     <div>
@@ -23,4 +23,4 @@ export const Notification:React.FC<{isMyTurn:boolean,children: React.ReactNode}>
   )
 }
 
-export default Notification;
+export default TurnNotification;

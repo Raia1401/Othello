@@ -1,20 +1,16 @@
-
 .Grid {
   margin: 0 auto ;
   width: 576px;
   height: 576px;
   align-items: center; 
-  /* box-shadow: 0 2px 2px 0; */
   border:10px solid rgb(162, 104, 73);
   box-shadow: 0 2px 2px 2px;
-  /* border: 2px solid #000000; */
 }
 
 .Grid-square {
   background-color: forestgreen;
   width: 70px;
   height: 70px;
-  /* margin: auto; */
   border: 1.0px solid ;
   display: flex;
 }
