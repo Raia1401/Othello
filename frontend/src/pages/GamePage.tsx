@@ -3,24 +3,19 @@ import {useContext} from "react";
 import './gamePage.css'
 import Grid from "../componetns/grid";
 import { useBoardData } from "../hooks/useBoardData";
-import * as apis from "../apis/api";
-import { BoardData } from "../types/boardData";
 import { BoardDataContext } from "../providers/boardDataProvider";
 import ResultNotification from "../componetns/resultNotification";
 import TurnNotification from "../componetns/turnNotification"
+import { useNewGame } from "../hooks/useNewGame";
+import { useTurnPass } from "../hooks/useTurnPass";
 
 function GamePage(){
 
   const boardDataCtx=useContext(BoardDataContext)
-
-  const createGame = () =>{
-      apis.postBoardData().then((boardData:BoardData)=>{
-        boardDataCtx.setBoardId(boardData.data.BoardId)
-      })
-  }
-  
   let {stonesPos,isMatchEnd} = useBoardData(boardDataCtx.boardId,boardDataCtx.isMyTurn)
-
+  const createGame=useNewGame()
+  const passMyTurn=useTurnPass()
+  
   return (
     <div className="contents">
     {isMatchEnd ? 
@@ -31,7 +26,7 @@ function GamePage(){
           <TurnNotification isMyTurn={boardDataCtx.isMyTurn}>
             <Grid stonesPos={stonesPos}/>
           </TurnNotification>
-          <div　className="pass_button">パスをする</div>
+          <div　className="pass_button" onClick={() => passMyTurn()}>パスをする</div>
         </>
         :
         <div>
