@@ -14,7 +14,6 @@ export const useStoneMovement=()=>{
         apis.updateStonePos(boardDataCtx.boardId, stoneMovement).then((boardData:BoardData)=>{
             boardDataCtx.setBoardId(boardData.data.BoardId)
             boardDataCtx.setIsMyTurn(boardData.data.IsMyTurn)
-            console.log("updateStonePos",boardData.data.IsMyTurn)
         })
 
         window.setTimeout(function(){
