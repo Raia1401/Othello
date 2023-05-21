@@ -2,7 +2,6 @@ package controller
 
 import (
 	"backend/service"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -49,7 +48,6 @@ func UpdateBoard(c *gin.Context) {
 	}
 
 	isMyTurn, err := strconv.ParseBool(c.Request.FormValue("is_my_turn"))
-	fmt.Println(isMyTurn)
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{"message": "invalid param: is_my_turn"})
 		return
@@ -96,48 +94,3 @@ func UpdateBoard(c *gin.Context) {
 
 	}
 }
-
-//PUT method
-// func PutDownStoneByOpponent(c *gin.Context) {
-
-// 	boardId, err := strconv.Atoi(c.Param("board_id"))
-// 	if err != nil {
-// 		c.JSONP(http.StatusBadRequest, gin.H{"message": "board_id should be sended"})
-// 		return
-// 	}
-
-// 	params, err := checkFormValue(c, "color")
-// 	if err != nil {
-// 		c.JSONP(http.StatusBadRequest, gin.H{"message": "my stone color should be sended"})
-// 		return
-// 	}
-// 	color := params[0]
-
-// 	gameMatchService := service.OthelloService{}
-// 	gameMatch, err := gameMatchService.PutDownStoneByOpponent(int64(boardId), color)
-
-// 	if err != nil {
-// 		c.JSONP(http.StatusBadRequest, gin.H{"msg": err.Error()})
-// 		return
-// 	}
-
-// 	c.JSONP(http.StatusOK, gin.H{
-// 		"message": "ok",
-// 		"data":    gameMatch,
-// 	})
-
-// }
-
-// //get form value in request data
-// func getFormValues(c *gin.Context, formList ...string) ([]int, error) {
-// 	var formValueList []int
-// 	for _, formValueName := range formList {
-// 		formValue, err := strconv.Atoi(c.Request.FormValue(formValueName))
-// 		if err != nil {
-// 			err := errors.New("queryString is not correct")
-// 			return formValueList, err
-// 		}
-// 		formValueList = append(formValueList, formValue)
-// 	}
-// 	return formValueList, nil
-// }

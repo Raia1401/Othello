@@ -33,7 +33,6 @@ func main() {
 		v1.POST("/", controller.CreateBoard)
 		v1.GET("/:board_id", controller.GetBoard)
 		v1.PUT("/:board_id", controller.UpdateBoard)
-		// v1.PUT("/gamematch/:board_id", controller.PutDownStoneByOpponent)
 
 	}
 

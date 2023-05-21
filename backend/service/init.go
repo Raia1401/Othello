@@ -3,7 +3,6 @@ package service
 import (
 	"backend/model"
 	"errors"
-	"fmt"
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -28,5 +27,5 @@ func init() {
 		log.Fatal(err)
 	}
 
-	fmt.Println("init Database succeed")
+	log.Println("init Database succeed")
 }
