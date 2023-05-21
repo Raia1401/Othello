@@ -13,7 +13,7 @@ const convStringToArray = (rawStonesPos:string) => {
       let stoneColor = parseInt(rawStonesPos.charAt(i))
       row.push(stoneColor)
     }
-    if ((i+1) % settings.BOARD_SIZE === 0 && row.length ){
+    if ((i+1) % (settings.BOARD_SIZE+2) === 0 && row.length ){
       col.push(row)
       row=[]
     }

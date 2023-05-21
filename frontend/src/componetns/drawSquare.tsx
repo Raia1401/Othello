@@ -1,13 +1,12 @@
 import './drawSquare.css'
 import { useStoneMovement } from '../hooks/useStoneMovement';
+import  * as settings from "../settings/settings"
 
 type Square ={
   x:number,
   y:number,
   colorOfStone:number
 }
-
-const myColor=1
 
 const DrawSquare:React.FC<Square>=(props)=>{
 
@@ -16,17 +15,17 @@ const DrawSquare:React.FC<Square>=(props)=>{
 
   return (
     <>
-    {colorOfStone ===1 ?
+    {colorOfStone ===settings.MY_STONE_COLOR ?
       <div className="Square">
         <div className="Square-stone Square-stone-black"></div>
       </div>
       :
-      colorOfStone === 2 ?
+      colorOfStone === settings.OPPONENT_STONE_COLOR ?
         <div className="Square">
           <div className="Square-stone Square-stone-white"></div>
         </div>
         :
-        <div className="Square Click" onClick={() => onClickBoard(x+1,y+1,myColor)}></div>
+        <div className="Square Click" onClick={() => onClickBoard(x+1,y+1,settings.MY_STONE_COLOR)}></div>
     }
     </>
   )
