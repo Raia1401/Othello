@@ -1,7 +1,7 @@
 import axios from "axios";
-import type { StoneMovement } from "../types/stoneMovement";
 
-const rootURL:string = process.env.REACT_APP_API || ""
+import type { StoneMovement } from "../types/stoneMovement";
+import {rootURL} from "../settings/settings"
 
 
 //ユーザーのゲーム盤面を新規作成

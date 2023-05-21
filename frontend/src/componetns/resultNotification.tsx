@@ -5,16 +5,15 @@ import './resultNotification.css'
 
 const ResultNotification:React.FC<{stonesPos:number[][]}>=(props)=>{
 
-  const BOARD_SIZE:number=8
   let myStoneNum:number=0
   let opponentStoneNum:number=0
 
-  for (let x=0; x< BOARD_SIZE; x++){
-    for (let y=0; y< BOARD_SIZE; y++){
+  for (let x=0; x< settings.BOARD_SIZE; x++){
+    for (let y=0; y< settings.BOARD_SIZE; y++){
       let stoneColor:number =props.stonesPos[x][y]
-      if (stoneColor === settings.myColor){
+      if (stoneColor === settings.MY_STONE_COLOR){
         myStoneNum++
-    }else if(stoneColor === settings.opponentColor){
+    }else if(stoneColor === settings.OPPONENT_STONE_COLOR){
         opponentStoneNum++
       }
     }

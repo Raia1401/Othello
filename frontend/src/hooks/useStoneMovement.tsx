@@ -1,4 +1,5 @@
 import { useContext } from "react"
+
 import * as apis from "../apis/api"
 import { BoardDataContext } from "../providers/boardDataProvider"
 import type { BoardData } from "../types/boardData"
@@ -13,7 +14,6 @@ export const useStoneMovement=()=>{
         apis.updateStonePos(boardDataCtx.boardId, stoneMovement).then((boardData:BoardData)=>{
             boardDataCtx.setBoardId(boardData.data.BoardId)
             boardDataCtx.setIsMyTurn(boardData.data.IsMyTurn)
-            console.log("updateStonePos",boardData.data.IsMyTurn)
         })
 
         window.setTimeout(function(){

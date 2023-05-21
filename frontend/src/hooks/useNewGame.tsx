@@ -1,6 +1,7 @@
-import { useEffect,useContext,useState} from "react";
-import { BoardDataContext} from "../providers/boardDataProvider";
+import { useContext } from "react";
+
 import * as apis from "../apis/api";
+import { BoardDataContext } from "../providers/boardDataProvider";
 import type { BoardData } from "../types/boardData";
 
 

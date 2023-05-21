@@ -10,12 +10,6 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        {/* <Route path='/' element={
-          <BoardDataProvider>
-            <LoginPage />
-          </BoardDataProvider>
-        } /> */}
-
         <Route path='/' element={
                 <BoardDataProvider>
                   <GamePage/>
