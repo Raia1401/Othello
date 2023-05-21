@@ -1,8 +1,8 @@
-import React from "react"
-import { useEffect,useState} from "react";
+import { useEffect, useState } from "react";
+
 import * as apis from "../apis/api";
+import * as settings from "../settings/settings";
 import type { BoardData } from "../types/boardData";
-import * as settings from "../settings/settings"
 
 
 const convStringToArray = (rawStonesPos:string) => {

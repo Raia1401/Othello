@@ -1,5 +1,6 @@
-import "./turnNotification.css"
 import {TailSpin} from 'react-loader-spinner'
+
+import "./turnNotification.css"
 
 
 const TurnNotification:React.FC<{isMyTurn:boolean,children: React.ReactNode}>=(props)=>{
