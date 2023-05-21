@@ -2,7 +2,6 @@ package controller
 
 import (
 	"backend/service"
-	"fmt"
 	"net/http"
 	"strconv"
 
@@ -49,7 +48,6 @@ func UpdateBoard(c *gin.Context) {
 	}
 
 	isMyTurn, err := strconv.ParseBool(c.Request.FormValue("is_my_turn"))
-	fmt.Println(isMyTurn)
 	if err != nil {
 		c.JSONP(http.StatusBadRequest, gin.H{"message": "invalid param: is_my_turn"})
 		return

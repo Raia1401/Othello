@@ -5,7 +5,6 @@ import (
 	"backend/service/agent"
 	"backend/service/board"
 	"errors"
-	"fmt"
 
 	_ "github.com/go-sql-driver/mysql"
 )
@@ -35,7 +34,6 @@ func (OthelloService) GetBoard(boardId int64) (model.Board, error) {
 		return boardModel, err
 	}
 	if IsMatchEnd(boardModel) {
-		fmt.Println("マッチが終わった")
 		boardModel.IsMatchEnd = true
 	}
 	return boardModel, nil
@@ -114,12 +112,9 @@ func IsMatchEnd(boardModel model.Board) bool {
 
 	myagent := agent.Agent{}
 	x, y := myagent.FindPosToPutDown(b, board.BLACK_STONE)
-	fmt.Println("my")
-	fmt.Println(x, y)
 	if x == 0 && y == 0 {
 		opponent := agent.Agent{}
 		x, y := opponent.FindPosToPutDown(b, board.WHITE_STONE)
-		fmt.Println("opponent", x, y)
 		if x == 0 && y == 0 {
 			return true
 		}
